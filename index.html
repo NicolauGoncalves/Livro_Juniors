@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branta Kids - Reading Time</title>
+    <!-- Fun, rounded font for kids -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Branta International School Colors */
+            --bg-color: #06162a; /* Deep blue */
+            --text-color: #ffffff;
+            --branta-blue: #005ba3;
+            --branta-red: #d31820;
+            
+            /* Unit Colors - Adjusted to variations of school colors for good text contrast */
+            --unit-1: #005ba3; /* Branta Blue */
+            --unit-2: #d31820; /* Branta Red */
+            --unit-3: #003f73; /* Darker Blue */
+            --unit-4: #990f15; /* Darker Red */
+            --unit-5: #4fa3e3; /* Light Blue */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Header with Logo */
+        header {
+            padding: 15px 40px;
+            background-color: rgba(6, 22, 42, 0.98);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+
+        .school-logo {
+            height: 50px;
+            filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.5));
+        }
+
+        /* Slim Hero Section */
+        .hero {
+            position: relative;
+            height: 35vh; /* Slimmer height */
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            margin-top: 80px; /* Offset for the fixed header */
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--branta-blue) 150%);
+        }
+
+        .hero-content h2 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Video Tracks */
+        .units-container {
+            padding: 20px 0 50px 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .unit-row {
+            margin-bottom: 40px;
+        }
+
+        .unit-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 40px 15px;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Dynamic colors for each Unit line */
+        .unit-row:nth-child(1) .unit-title { border-bottom: 3px solid var(--unit-1); }
+        .unit-row:nth-child(2) .unit-title { border-bottom: 3px solid var(--unit-2); }
+        .unit-row:nth-child(3) .unit-title { border-bottom: 3px solid var(--unit-3); }
+        .unit-row:nth-child(4) .unit-title { border-bottom: 3px solid var(--unit-4); }
+        .unit-row:nth-child(5) .unit-title { border-bottom: 3px solid var(--unit-5); }
+
+        .carousel {
+            display: flex;
+            gap: 20px;
+            padding: 10px 40px 30px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Video Cards */
+        .card {
+            min-width: 260px;
+            height: 150px;
+            border-radius: 8px; /* Slimmer border radius */
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        /* Interactive Hover Effect */
+        .card:hover {
+            transform: translateY(-5px) scale(1.03); /* Subtle lift */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--branta-red);
+            z-index: 2;
+        }
+
+        /* Generated Covers with Text */
+        .card-cover {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .card-cover {
+            opacity: 0.2; /* Fades the text so the "Watch Video" info pops up */
+        }
+
+        .card-info {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(6, 22, 42, 0.9);
+            transition: bottom 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card:hover .card-info {
+            bottom: 0;
+        }
+
+        .play-icon {
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--branta-red);
+            font-size: 0.7rem;
+            padding-left: 2px;
+        }
+
+        .card-info span {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Video Player Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(6, 22, 42, 0.98);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            z-index: 101;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+            color: var(--branta-red);
+        }
+
+        video {
+            width: 80%;
+            max-width: 1000px;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--branta-blue);
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://i.postimg.cc/HkHQQBYN/Logo.png" alt="Branta International School" class="school-logo">
+    </header>
+
+    <!-- Slim Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Reading Time</h2>
+            <p>Select a unit below and start your reading adventure.</p>
+        </div>
+    </section>
+
+    <!-- Units List -->
+    <section class="units-container">
+        
+        <script>
+            const units = 5;
+            const readingsPerUnit = 3;
+
+            for (let i = 1; i <= units; i++) {
+                let cardsHTML = '';
+                
+                for (let j = 1; j <= readingsPerUnit; j++) {
+                    const videoPath = `Unit ${i}/Reading ${j}.mp4`;
+                    
+                    // Creates a gradient background for each card based on its Unit color
+                    const unitColorVar = `var(--unit-${i})`;
+                    const cardBackground = `linear-gradient(135deg, ${unitColorVar} 0%, rgba(6,22,42,1) 100%)`;
+
+                    cardsHTML += `
+                        <div class="card" style="background: ${cardBackground};" onclick="openVideo('${videoPath}')">
+                            <!-- CSS Generated Text Cover -->
+                            <div class="card-cover">Reading ${j}</div>
+                            
+                            <!-- Hidden info that appears on hover -->
+                            <div class="card-info">
+                                <div class="play-icon">▶</div>
+                                <span>Watch Video</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const unitHTML = `
+                    <div class="unit-row">
+                        <h2 class="unit-title">Unit ${i}</h2>
+                        <div class="carousel">
+                            ${cardsHTML}
+                        </div>
+                    </div>
+                `;
+                
+                document.write(unitHTML);
+            }
+        </script>
+
+    </section>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal" id="videoModal">
+        <span class="close-btn" onclick="closeVideo()">&times;</span>
+        <video id="player" controls>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('player');
+        const source = player.querySelector('source');
+
+        function openVideo(videoUrl) {
+            source.src = videoUrl;
+            player.load();
+            modal.classList.add('active');
+            player.play().catch(e => console.log("Autoplay blocked by browser", e));
+        }
+
+        function closeVideo() {
+            modal.classList.remove('active');
+            player.pause();
+            player.currentTime = 0; 
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeVideo();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeVideo();
+            }
+        });
+    </script>
+</body>
+</html>
