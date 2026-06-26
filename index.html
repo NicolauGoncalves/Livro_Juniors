@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branta Kids - Reading Time</title>
-    <!-- Fun, rounded font for kids -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Branta International School Colors */
-            --bg-color: #06162a; /* Deep blue */
+            /* Branta International School Colors - Cinematic Dark Mode */
+            --bg-color: #030b14; /* Deep cinematic blue */
             --text-color: #ffffff;
             --branta-blue: #005ba3;
             --branta-red: #d31820;
             
-            /* Unit Colors - Adjusted to variations of school colors for good text contrast */
+            /* Unit Colors - Sophisticated palette based on school colors */
             --unit-1: #005ba3; /* Branta Blue */
             --unit-2: #d31820; /* Branta Red */
             --unit-3: #003f73; /* Darker Blue */
             --unit-4: #990f15; /* Darker Red */
             --unit-5: #4fa3e3; /* Light Blue */
+            --unit-6: #ff4d4d; /* Bright Red/Coral for the new Unit 6 */
         }
 
         * {
@@ -27,86 +27,114 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Nunito', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow-x: hidden;
+            /* Subtle radial gradient for depth */
+            background-image: radial-gradient(circle at top right, rgba(0, 91, 163, 0.15), transparent 40%);
         }
 
-        /* Header with Logo */
+        /* Premium Header with Glassmorphism */
         header {
-            padding: 15px 40px;
-            background-color: rgba(6, 22, 42, 0.98);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 50px;
+            background: rgba(3, 11, 20, 0.7);
+            backdrop-filter: blur(12px); /* Apple-style blur effect */
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: fixed;
             width: 100%;
-            z-index: 10;
+            z-index: 20;
             display: flex;
             align-items: center;
+            transition: background 0.3s ease;
         }
 
         .school-logo {
-            height: 50px;
-            filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.5));
+            height: 45px;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.6));
+            transition: transform 0.3s ease;
         }
 
-        /* Slim Hero Section */
+        .school-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Elegant Hero Section */
         .hero {
             position: relative;
-            height: 35vh; /* Slimmer height */
+            height: 40vh;
             display: flex;
             align-items: center;
-            padding: 0 40px;
-            margin-top: 80px; /* Offset for the fixed header */
-            background: linear-gradient(135deg, var(--bg-color) 0%, var(--branta-blue) 150%);
+            padding: 0 50px;
+            margin-top: 70px;
+            background: linear-gradient(180deg, transparent 0%, var(--bg-color) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 91, 163, 0.2) 0%, transparent 100%);
+            z-index: -1;
         }
 
         .hero-content h2 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            margin-bottom: 5px;
-            color: var(--text-color);
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 20px rgba(0,0,0,0.5);
+            letter-spacing: -1px;
         }
 
         .hero-content p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             max-width: 600px;
-            opacity: 0.8;
-            line-height: 1.4;
+            color: #b3c0d1;
+            line-height: 1.5;
+            font-weight: 400;
         }
 
         /* Video Tracks */
         .units-container {
-            padding: 20px 0 50px 0;
+            padding: 10px 0 60px 0;
             position: relative;
             z-index: 5;
         }
 
         .unit-row {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
+            position: relative;
         }
 
         .unit-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin: 0 40px 15px;
+            margin: 0 50px 15px;
             display: inline-block;
             padding-bottom: 5px;
+            letter-spacing: 0.5px;
+            color: #f0f0f0;
         }
 
-        /* Dynamic colors for each Unit line */
+        /* Dynamic, crisp colors for each Unit line */
         .unit-row:nth-child(1) .unit-title { border-bottom: 3px solid var(--unit-1); }
         .unit-row:nth-child(2) .unit-title { border-bottom: 3px solid var(--unit-2); }
         .unit-row:nth-child(3) .unit-title { border-bottom: 3px solid var(--unit-3); }
         .unit-row:nth-child(4) .unit-title { border-bottom: 3px solid var(--unit-4); }
         .unit-row:nth-child(5) .unit-title { border-bottom: 3px solid var(--unit-5); }
+        .unit-row:nth-child(6) .unit-title { border-bottom: 3px solid var(--unit-6); } /* Added Unit 6 Line */
 
         .carousel {
             display: flex;
-            gap: 20px;
-            padding: 10px 40px 30px;
+            gap: 24px;
+            padding: 10px 50px 30px;
             overflow-x: auto;
             scroll-behavior: smooth;
         }
@@ -119,28 +147,29 @@
             scrollbar-width: none;
         }
 
-        /* Video Cards */
+        /* Refined Video Cards */
         .card {
-            min-width: 260px;
-            height: 150px;
-            border-radius: 8px; /* Slimmer border radius */
+            min-width: 280px;
+            height: 160px;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            background-color: #111;
         }
 
-        /* Interactive Hover Effect */
+        /* Smooth, cinematic hover */
         .card:hover {
-            transform: translateY(-5px) scale(1.03); /* Subtle lift */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--branta-red);
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 2;
         }
 
-        /* Generated Covers with Text */
+        /* Premium CSS Generated Covers */
         .card-cover {
             width: 100%;
             height: 100%;
@@ -150,26 +179,41 @@
             font-size: 1.8rem;
             font-weight: 900;
             color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-            transition: opacity 0.3s ease;
+            text-shadow: 0px 4px 10px rgba(0,0,0,0.6);
+            transition: opacity 0.4s ease;
+            position: relative;
+        }
+
+        /* Adds a dark vignette inside the card for a richer look */
+        .card-cover::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
+        }
+        
+        .card-cover span {
+            position: relative;
+            z-index: 2; /* Keeps text above the vignette */
         }
 
         .card:hover .card-cover {
-            opacity: 0.2; /* Fades the text so the "Watch Video" info pops up */
+            opacity: 0.15;
         }
 
         .card-info {
             position: absolute;
-            bottom: -50px;
+            bottom: -60px;
             left: 0;
             width: 100%;
-            padding: 15px;
-            background: rgba(6, 22, 42, 0.9);
-            transition: bottom 0.3s ease;
+            padding: 15px 20px;
+            background: linear-gradient(to top, rgba(3, 11, 20, 0.95), rgba(3, 11, 20, 0.7));
+            backdrop-filter: blur(4px);
+            transition: bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .card:hover .card-info {
@@ -177,24 +221,26 @@
         }
 
         .play-icon {
-            width: 24px;
-            height: 24px;
-            background-color: white;
+            width: 28px;
+            height: 28px;
+            background-color: var(--branta-red);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--branta-red);
+            color: white;
             font-size: 0.7rem;
             padding-left: 2px;
+            box-shadow: 0 0 10px rgba(211, 24, 32, 0.5);
         }
 
         .card-info span {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
+            color: white;
         }
 
-        /* Video Player Modal */
+        /* Video Player Modal with Fade-in Animation */
         .video-modal {
             display: none;
             position: fixed;
@@ -202,39 +248,50 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(6, 22, 42, 0.98);
+            background-color: rgba(3, 11, 20, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 100;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .video-modal.active {
             display: flex;
+            opacity: 1;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .close-btn {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 25px;
+            right: 40px;
             font-size: 3rem;
-            color: white;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             z-index: 101;
-            transition: transform 0.2s, color 0.2s;
+            transition: all 0.2s ease;
         }
 
         .close-btn:hover {
             transform: scale(1.1);
-            color: var(--branta-red);
+            color: #ffffff;
         }
 
         video {
-            width: 80%;
-            max-width: 1000px;
-            border-radius: 8px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--branta-blue);
+            width: 85%;
+            max-width: 1100px;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
             background-color: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            outline: none;
         }
     </style>
 </head>
@@ -244,7 +301,6 @@
         <img src="https://i.postimg.cc/HkHQQBYN/Logo.png" alt="Branta International School" class="school-logo">
     </header>
 
-    <!-- Slim Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h2>Reading Time</h2>
@@ -252,11 +308,11 @@
         </div>
     </section>
 
-    <!-- Units List -->
     <section class="units-container">
         
         <script>
-            const units = 5;
+            // --- ATUALIZAÇÃO: Agora são 6 Units! ---
+            const units = 6; 
             const readingsPerUnit = 3;
 
             for (let i = 1; i <= units; i++) {
@@ -265,16 +321,16 @@
                 for (let j = 1; j <= readingsPerUnit; j++) {
                     const videoPath = `Unit ${i}/Reading ${j}.mp4`;
                     
-                    // Creates a gradient background for each card based on its Unit color
+                    // Stylized gradient background for each card
                     const unitColorVar = `var(--unit-${i})`;
-                    const cardBackground = `linear-gradient(135deg, ${unitColorVar} 0%, rgba(6,22,42,1) 100%)`;
+                    const cardBackground = `linear-gradient(135deg, ${unitColorVar} 0%, #030b14 120%)`;
 
                     cardsHTML += `
                         <div class="card" style="background: ${cardBackground};" onclick="openVideo('${videoPath}')">
-                            <!-- CSS Generated Text Cover -->
-                            <div class="card-cover">Reading ${j}</div>
+                            <div class="card-cover">
+                                <span>Reading ${j}</span>
+                            </div>
                             
-                            <!-- Hidden info that appears on hover -->
                             <div class="card-info">
                                 <div class="play-icon">▶</div>
                                 <span>Watch Video</span>
@@ -298,10 +354,9 @@
 
     </section>
 
-    <!-- Video Player Modal -->
     <div class="video-modal" id="videoModal">
         <span class="close-btn" onclick="closeVideo()">&times;</span>
-        <video id="player" controls>
+        <video id="player" controls controlsList="nodownload">
             <source src="" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -321,8 +376,10 @@
 
         function closeVideo() {
             modal.classList.remove('active');
-            player.pause();
-            player.currentTime = 0; 
+            setTimeout(() => {
+                player.pause();
+                player.currentTime = 0; 
+            }, 300); // Waits for the fade-out transition before resetting the video
         }
 
         modal.addEventListener('click', function(e) {
